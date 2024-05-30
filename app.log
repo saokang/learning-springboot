@@ -1,0 +1,4 @@
+2024-05-31 01:11:49 703 [DEBUG] Debugging application... User: Alice, Time: 1717089109701
+2024-05-31 01:11:49 706 [INFO] Application is running
+2024-05-31 01:11:49 706 [WARN] Low memory warning
+2024-05-31 01:11:49 706 [ERROR] Failed to load resource: resource_name
