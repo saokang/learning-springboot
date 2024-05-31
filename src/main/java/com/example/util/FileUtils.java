@@ -2,6 +2,7 @@ package com.example.util;
 
 import java.io.*;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -49,12 +50,10 @@ public class FileUtils {
 
     // 创建文件夹
     public static boolean createDirectory(String path) {
-        try {
-            Files.createDirectories(Paths.get(path));
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+        // 创建File对象
+        File directory = new File(path);
+        // 创建目录，包括所有必需的父目录
+        return directory.mkdirs();
     }
 
     // 删除文件夹
@@ -69,14 +68,61 @@ public class FileUtils {
         }
     }
 
-    // 文件拷贝
-    public static boolean copyFile(String source, String destination) {
-        try {
-            Files.copy(Paths.get(source), Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
-            return true;
-        } catch (IOException e) {
-            return false;
+
+    /**
+     * 复制文件或目录到目标路径。
+     *
+     * @param sourcePath 源文件或目录的路径
+     * @param targetPath 目标路径
+     * @throws IOException 如果在复制过程中发生IO错误
+     */
+    private static void copy(Path sourcePath, Path targetPath) {
+        // 检查源路径是否存在
+        if (Files.notExists(sourcePath)) {
+            throw new IllegalArgumentException("Source path does not exist: " + sourcePath);
         }
+
+        // 确定复制的目标路径
+        if (Files.isDirectory(targetPath)) {
+            targetPath = targetPath.resolve(sourcePath.getFileName());
+        }
+
+        // 复制文件或目录
+        if (Files.isDirectory(sourcePath)) {
+            // 递归复制目录
+            Path finalTargetPath = targetPath;
+            try {
+                Files.walkFileTree(sourcePath, new SimpleFileVisitor<Path>() {
+                    @Override
+                    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                        Path targetDir = finalTargetPath.resolve(sourcePath.relativize(dir));
+                        if (!Files.exists(targetDir)) {
+                            Files.createDirectory(targetDir);
+                        }
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                        Files.copy(file, finalTargetPath.resolve(sourcePath.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+                        return FileVisitResult.CONTINUE;
+                    }
+                });
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            // 直接复制文件
+            try {
+                Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static void copy(String src, String dest) {
+        copy(Paths.get(src), Paths.get(dest));
     }
 
     // 文件重命名
@@ -107,8 +153,12 @@ public class FileUtils {
     }
 
     // 写入文本文件
-    public static void writeStringToFile(String filePath, String data) throws IOException {
-        Files.write(Paths.get(filePath), data.getBytes());
+    public static void writeStringToFile(String filePath, String data) {
+        try {
+            Files.write(Paths.get(filePath), data.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // 按行读取文本文件
@@ -134,10 +184,10 @@ public class FileUtils {
     }
 
     public static void printDirectoryTree(String startPath, int maxDepth) {
-        printDirectoryTree(Path.of(startPath), 0, maxDepth, "");
+        printDirectoryTree(Paths.get(startPath), 0, maxDepth, "");
     }
 
-    private static void printDirectoryTree(Path path, int currentDepth, int maxDepth, String prefix)  {
+    private static void printDirectoryTree(Path path, int currentDepth, int maxDepth, String prefix) {
         if (currentDepth > maxDepth || !Files.exists(path)) {
             return;
         }
@@ -189,18 +239,38 @@ public class FileUtils {
         System.out.println("当前工程的pom.xml文件大小：" + getFileSize(existedFile));
 
         System.out.println("========== copyFile Test ==========");
-        // fixme 1 传入两个文件夹A B 代表把A拷贝到B目录下
-        String ADir = projectDir + File.separator + "A";
-        String BDir = projectDir + File.separator + "B";
-        System.out.println("ADir 创建是否成功：" + createDirectory(ADir));
-        System.out.println("BDir 创建是否成功：" + createDirectory(BDir));
-        System.out.println("拷贝目录A到B目录下是否成功：" + copyFile(ADir, BDir));
-        // 2 传入文件A.txt 文件夹B 代表将A.txt拷贝到B目录下
-        // 3 传入两个文件A.txt B.txt 代表复制文件并重命名
+        String testDir = projectDir + File.separator + "test_for_copy_file";
+        deleteDirectory(testDir);
+        String aDir = testDir + File.separator + "AAA";
+        String bDir = testDir + File.separator + "BBB";
+        String aTxt = testDir + File.separator + "aaa.txt";
+        String bTxt = testDir + File.separator + "bbb.txt";
+        String abcDir = testDir + File.separator + "AA/BB/CC";
+        System.out.println(createDirectory(aDir));
+        System.out.println(createDirectory(bDir));
+        System.out.println(createFile(aTxt));
+        writeStringToFile(aTxt, "testForAAATxt");
+        copy(aDir, bDir);
+        copy(aTxt, aDir);
+        copy(aDir, bDir);
+        copy(aDir, abcDir);
+        copy(aTxt, bTxt);
+        /*
+            AAA
+                aaa.txt
+            BBB
+                AAA
+                    aaa.txt
+            AA
+                BB
+                    CC
+                        AAA
+                            aaa.txt
+            aaa.txt
+            bbb.txt
+         */
+        printDirectoryTree(testDir, 10);
 
-        printDirectoryTree(projectDir, 10);
-        System.out.println(deleteDirectory(ADir));
-        System.out.println(deleteDirectory(BDir));
 
     }
 }

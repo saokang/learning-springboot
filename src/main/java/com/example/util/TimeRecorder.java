@@ -1,6 +1,6 @@
 package com.example.util;
 
-public class TimeTracker {
+public class TimeRecorder {
 
     public static final String TIME_Millis = "milliseconds";
     public static final String TIME_Nano = "nanoseconds";
@@ -46,7 +46,7 @@ public class TimeTracker {
         running = false;
     }
 
-    public TimeTracker andStart() {
+    public TimeRecorder andStart() {
         start();
         return this;
     }
@@ -71,7 +71,7 @@ public class TimeTracker {
     }
 
     public static void main(String[] args) {
-        TimeTracker timer = new TimeTracker();
+        TimeRecorder timer = new TimeRecorder();
         // 开始计时
         timer.start();
         // 执行一些需要计时的代码
@@ -82,9 +82,9 @@ public class TimeTracker {
         System.out.println("Task completed in " + timer.getElapsedTimeMillis() + " milliseconds.");
         System.out.println("Task completed in " + timer.getElapsedTimeSeconds() + " seconds.");
 
-        TimeTracker timeTracker = new TimeTracker().andStart();
+        TimeRecorder timeRecorder = new TimeRecorder().andStart();
         performTask();
-        timeTracker.stopAndPrint(Thread.currentThread().getName());
+        timeRecorder.stopAndPrint(Thread.currentThread().getName());
     }
 
     private static void performTask() {
