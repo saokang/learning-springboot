@@ -2,6 +2,7 @@ package com.example.util;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.TimeUnit;
@@ -214,6 +215,12 @@ public class ThreadUtils {
                 throw new RuntimeException(e);
             }
         });
+        System.out.println();
+
+        executeTasksWithParams((param) -> {
+            // 简单处理逻辑
+            System.out.println("Get Iphone is: " + param);
+        }, Arrays.asList("Apple","Xiaomi","ViVO", "OPPO", "OnePlus"));
 
         shutdownCommonThreadPool();
     }
