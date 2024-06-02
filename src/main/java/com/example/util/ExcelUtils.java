@@ -122,6 +122,26 @@ public class ExcelUtils {
         }
     }
 
+    /**
+     * readExcelHead By line num
+     *
+     * @param filePath   excel file path
+     * @param sheetIndex from 0 to max
+     * @param rowIndex   from 0 to max
+     * @return line data
+     */
+    public static List<String> readExcelHead(String filePath, int sheetIndex, int rowIndex) {
+        try (Workbook sheets = WorkbookFactory.create(new File(filePath))) {
+            Sheet sheet = sheets.getSheetAt(sheetIndex);
+            Row row = sheet.getRow(rowIndex);
+            short startColumnIndex = row.getFirstCellNum();
+            short lastColumnIndex = row.getLastCellNum();
+            return IntStream.range(startColumnIndex, lastColumnIndex + 1).mapToObj(index -> getCellValue(row.getCell(index))).collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static String getCellValue(Cell cell) {
         if (null == cell) return NULL;
         return switch (cell.getCellType()) {
@@ -140,12 +160,13 @@ public class ExcelUtils {
         String iphoneExcel = System.getProperty("user.dir") + File.separator + "src/main/java/com/example/util/assets/iphone.xlsx";
         // 消费每行数据
         readExcel(iphoneExcel, 0, list -> {
-            list.forEach(System.out::println);
+            System.out.print(list);
+            System.out.println();
         });
 
         // 转换每行数据
         List<List<String>> excelData = readExcel(iphoneExcel, 0, list -> {
-            return list.stream().map(data -> data + "xxx").collect(Collectors.toList());
+            return list.stream().map(data -> data + "_new").collect(Collectors.toList());
         });
         excelData.forEach(System.out::println);
 
@@ -154,6 +175,12 @@ public class ExcelUtils {
 
         // 获取sheet名称
         readExcelSheetsName(iphoneExcel).forEach(System.out::println);
+
+        // 获取行标题
+        System.out.println("===> get excel head:");
+        readExcelHead(iphoneExcel, 0, 0).forEach(head -> {
+            System.out.print(head + "\t");
+        });
     }
 
 }
