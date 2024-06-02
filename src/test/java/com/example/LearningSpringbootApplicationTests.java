@@ -8,6 +8,7 @@ class LearningSpringbootApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println(1 << 10);
     }
 
 }

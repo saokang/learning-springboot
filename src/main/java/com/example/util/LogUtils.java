@@ -37,7 +37,7 @@ public class LogUtils {
     private static String formatMessage(LogLevel level, String message, Object... params) {
         String timestamp = dateFormat.format(new Date());
         String formattedMessage = formatWithBraces(message, params);
-        return String.format("%s [%s] %s", timestamp, level, formattedMessage);
+        return String.format("%s %s --- [%s] %s", timestamp, level, Thread.currentThread().getName(), formattedMessage);
     }
 
     // 写入到文件

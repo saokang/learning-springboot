@@ -76,10 +76,15 @@ public class FileUtils {
      * @param targetPath 目标路径
      * @throws IOException 如果在复制过程中发生IO错误
      */
-    private static void copy(Path sourcePath, Path targetPath) {
+    private static void copy(Path sourcePath, Path targetPath, boolean createIfNotExisted) {
         // 检查源路径是否存在
         if (Files.notExists(sourcePath)) {
             throw new IllegalArgumentException("Source path does not exist: " + sourcePath);
+        }
+
+        if (createIfNotExisted && Files.notExists(targetPath)) {
+            File dir = new File(String.valueOf(targetPath));
+            dir.mkdirs();
         }
 
         // 确定复制的目标路径
@@ -122,7 +127,11 @@ public class FileUtils {
     }
 
     public static void copy(String src, String dest) {
-        copy(Paths.get(src), Paths.get(dest));
+        copy(Paths.get(src), Paths.get(dest), false);
+    }
+
+    public static void copy(String src, String dest, boolean createIfNotExisted) {
+        copy(Paths.get(src), Paths.get(dest), createIfNotExisted);
     }
 
     // 文件重命名
@@ -239,7 +248,7 @@ public class FileUtils {
         System.out.println("当前工程的pom.xml文件大小：" + getFileSize(existedFile));
 
         System.out.println("========== copyFile Test ==========");
-        String testDir = projectDir + File.separator + "test_for_copy_file";
+        String testDir = projectDir + File.separator + "TEST_COPY_FILE";
         deleteDirectory(testDir);
         String aDir = testDir + File.separator + "AAA";
         String bDir = testDir + File.separator + "BBB";
@@ -253,24 +262,28 @@ public class FileUtils {
         copy(aDir, bDir);
         copy(aTxt, aDir);
         copy(aDir, bDir);
-        copy(aDir, abcDir);
+        copy(aDir, abcDir, true);
         copy(aTxt, bTxt);
         /*
-            AAA
-                aaa.txt
-            BBB
-                AAA
-                    aaa.txt
-            AA
-                BB
-                    CC
-                        AAA
-                            aaa.txt
-            aaa.txt
-            bbb.txt
+         * ├── TEST_COPY_FILE/
+         * │   ├── AA/
+         * │       ├── BB/
+         * │           ├── CC/
+         * │               ├── AAA/
+         * │                   ├── aaa.txt
+         * │   ├── AAA/
+         * │       ├── aaa.txt
+         * │   ├── aaa.txt
+         * │   ├── BBB/
+         * │       ├── AAA/
+         * │           ├── aaa.txt
+         *     ├── bbb.txt
          */
         printDirectoryTree(testDir, 10);
-
+        boolean b = renameFile(bTxt, "bbbbbb.txt");
+        System.out.println(b);
+        printDirectoryTree(testDir, 10);
+        deleteDirectory(testDir);
 
     }
 }
