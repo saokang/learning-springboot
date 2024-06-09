@@ -119,7 +119,7 @@ import org.springframework.lang.Nullable;
  *  DisposableBean#destroy
  *  org.springframework.beans.factory.support.RootBeanDefinition#getDestroyMethodName
  */
-public interface LearningBeanFactory {
+public interface CopyFromSpringBootNamedBeanFactory {
 
 	/**
 	 * Used to dereference a { FactoryBean} instance and distinguish it from

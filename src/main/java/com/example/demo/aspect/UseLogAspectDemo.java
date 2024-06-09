@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 @Service
-public class LogServiceImplDemo {
+public class UseLogAspectDemo {
 
     @Log(value = "call getLog method")
     public String getLog(Integer id) {
