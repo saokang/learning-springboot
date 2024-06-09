@@ -1,8 +1,8 @@
-package com.example.demo.mybatis.mapper;
+package com.example.demo.learning04_mybatis.mapper;
 
-import com.example.demo.mybatis.core.anno.Param;
-import com.example.demo.mybatis.core.anno.Select;
-import com.example.demo.mybatis.pojo.User;
+import com.example.demo.learning04_mybatis.core.anno.Param;
+import com.example.demo.learning04_mybatis.core.anno.Select;
+import com.example.demo.learning04_mybatis.pojo.User;
 
 import java.util.List;
 

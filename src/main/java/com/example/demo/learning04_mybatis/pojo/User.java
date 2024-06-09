@@ -1,6 +1,4 @@
-package com.example.demo.mybatis.pojo;
-
-import java.util.Date;
+package com.example.demo.learning04_mybatis.pojo;
 
 public class User {
 

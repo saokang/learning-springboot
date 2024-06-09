@@ -1,6 +1,6 @@
-package com.example.demo.mybatis.core;
+package com.example.demo.learning04_mybatis.core;
 
-import com.example.demo.mybatis.pojo.User;
+import com.example.demo.learning04_mybatis.pojo.User;
 
 import java.io.FileInputStream;
 import java.io.IOException;

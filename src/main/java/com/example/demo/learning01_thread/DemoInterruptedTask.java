@@ -1,4 +1,4 @@
-package com.example.demo.thread;
+package com.example.demo.learning01_thread;
 
 public class DemoInterruptedTask implements Runnable {
 

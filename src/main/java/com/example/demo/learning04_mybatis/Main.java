@@ -1,10 +1,7 @@
-package com.example.demo.mybatis;
+package com.example.demo.learning04_mybatis;
 
-import com.example.demo.mybatis.core.MapperProxyFactory;
-import com.example.demo.mybatis.mapper.UserMapper;
-import com.example.demo.mybatis.pojo.User;
-
-import java.util.List;
+import com.example.demo.learning04_mybatis.core.MapperProxyFactory;
+import com.example.demo.learning04_mybatis.mapper.UserMapper;
 
 public class Main {
 

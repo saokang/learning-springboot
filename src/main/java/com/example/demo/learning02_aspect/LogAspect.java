@@ -1,4 +1,4 @@
-package com.example.demo.aspect;
+package com.example.demo.learning02_aspect;
 
 import com.example.util.LogUtils;
 import org.aspectj.lang.JoinPoint;

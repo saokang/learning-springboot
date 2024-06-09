@@ -1,7 +1,7 @@
 package com.example;
 
 import com.example.demo.PojoDemo;
-import com.example.demo.aspect.UseLogAspectDemo;
+import com.example.demo.learning02_aspect.UseLogAspectDemo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
