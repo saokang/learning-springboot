@@ -1,4 +1,7 @@
 spring:
   application:
     name: learning-springboot
-
+  servlet:
+    multipart:
+      max-file-size: 16MB
+      max-request-size: 128MB

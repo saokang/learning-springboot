@@ -5,10 +5,18 @@ import com.example.demo.learning02_aspect.UseLogAspectDemo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PrimitiveIterator;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class LearningSpringbootApplicationTests {
@@ -79,6 +87,30 @@ class LearningSpringbootApplicationTests {
         bean.entrySet().forEach(entry -> {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         });
+    }
+
+
+    @Test
+    public void test4FileWalkMethod() throws IOException {
+        String projectDir = System.getProperty("user.dir");
+
+        // jdk 1.8
+        File project = new File(projectDir);
+        Arrays.stream(project.listFiles())
+                .map(File::getAbsoluteFile)
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
+
+        // jdk 1.8+
+        System.out.println("===== 1.8+ =====");
+        Path projectPath = Path.of(projectDir);
+        Files.walk(projectPath, 2)
+                .filter(path -> !path.equals(projectPath))
+                .map(projectPath::relativize)
+                .filter(path -> !Files.isDirectory(path))
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
+
     }
 
 }

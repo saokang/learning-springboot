@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload and List</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .left {
+            width: 40%;
+            padding: 20px;
+            background-color: #f0f0f0;
+            overflow-y: auto;
+        }
+
+        .right {
+            width: 60%;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .list-item {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="left">
+        <h2>File List</h2>
+        <ul class="list">
+            <li class="list-item" th:each="file : ${files}">
+                <a th:href="@{${file}}" th:text="${file}">Download</a>
+            </li>
+            <!-- Add more list items as needed -->
+        </ul>
+    </div>
+    <div class="right">
+        <h2>Upload File</h2>
+        <form method="post" enctype="multipart/form-data" action="/files/upload">
+            <input type="file" name="file"/>
+            <button type="submit">Upload</button>
+        </form>
+        <hr>
+        <form method="post" enctype="multipart/form-data" action="/files/upload/v1">
+            <input type="file" name="file"/>
+            <button type="submit">Upload V1 return JSON</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
