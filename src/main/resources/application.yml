@@ -5,3 +5,5 @@ spring:
     multipart:
       max-file-size: 16MB
       max-request-size: 128MB
+  banner:
+    location: banner_huangzhikang.txt
