@@ -5,6 +5,7 @@ import com.example.demo.learning02_aspect.UseLogAspectDemo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.File;
@@ -113,4 +114,12 @@ class LearningSpringbootApplicationTests {
 
     }
 
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Test
+    void test4RedisTemplate() {
+        redisTemplate.opsForValue().set("username", "huangzhikang");
+    }
 }
