@@ -1,9 +1,9 @@
-package com.example.demo.learning01_thread;
+package com.example.demo.thread;
 
-public class DemoInterruptedTask implements Runnable {
+public class InterruptedTaskDemo implements Runnable {
 
     public static void main(String[] args) throws InterruptedException {
-        Thread thread = new Thread(new DemoInterruptedTask());
+        Thread thread = new Thread(new InterruptedTaskDemo());
         thread.start();
 
         // 主线程等待一段时间后中断任务线程

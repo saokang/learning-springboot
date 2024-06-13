@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.exception.BusinessException;
 import com.example.exception.UnknownException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,11 +18,11 @@ public class ExceptionController {
 
     @GetMapping("/biz")
     public ResponseEntity<String> businessException() {
-        throw new UnknownException("system business exception...");
+        throw new BusinessException("system business exception...");
     }
 
     @GetMapping("/error")
     public ResponseEntity<String> exception() {
-        throw new UnknownException("system error exception...");
+        throw new RuntimeException("system error exception...");
     }
 }

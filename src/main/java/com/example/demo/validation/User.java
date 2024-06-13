@@ -1,4 +1,4 @@
-package com.example.demo.learning05_validation;
+package com.example.demo.validation;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -108,7 +106,7 @@ public class FileController implements BeanPostProcessor {
                 .collect(Collectors.toList());
         // serveFiles.forEach(file -> LogUtils.debug("file: {}", file));
         model.addAttribute("files", serveFiles);
-        return "uploadForm";
+        return "upload";
     }
 
     // 下载文件

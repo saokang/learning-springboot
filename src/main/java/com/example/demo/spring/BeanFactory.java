@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.demo.chapter03_spring;
+package com.example.demo.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -119,7 +119,7 @@ import org.springframework.lang.Nullable;
  *  DisposableBean#destroy
  *  org.springframework.beans.factory.support.RootBeanDefinition#getDestroyMethodName
  */
-public interface CopyFromSpringBootNamedBeanFactory {
+public interface BeanFactory {
 
 	/**
 	 * Used to dereference a { FactoryBean} instance and distinguish it from

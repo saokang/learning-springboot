@@ -1,10 +1,10 @@
-package com.example.demo.learning04_mybatis.core;
+package com.example.demo.mybatis.core;
 
-import com.example.demo.learning04_mybatis.core.anno.Param;
-import com.example.demo.learning04_mybatis.core.anno.Select;
-import com.example.demo.learning04_mybatis.core.handler.IntegerTypeHandler;
-import com.example.demo.learning04_mybatis.core.handler.StringTypeHandler;
-import com.example.demo.learning04_mybatis.core.handler.TypeHandler;
+import com.example.demo.mybatis.core.anno.Param;
+import com.example.demo.mybatis.core.anno.Select;
+import com.example.demo.mybatis.core.handler.IntegerTypeHandler;
+import com.example.demo.mybatis.core.handler.StringTypeHandler;
+import com.example.demo.mybatis.core.handler.TypeHandler;
 import com.example.util.LogUtils;
 
 import java.lang.reflect.*;

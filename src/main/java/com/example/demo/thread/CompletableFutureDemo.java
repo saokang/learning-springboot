@@ -1,4 +1,4 @@
-package com.example.demo.learning01_thread;
+package com.example.demo.thread;
 
 import com.example.util.LogUtils;
 
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class DemoCompletableFuture {
+public class CompletableFutureDemo {
     public static void main(String[] args) {
         List<CompletableFuture<Integer>> futureList = new ArrayList<>();
 

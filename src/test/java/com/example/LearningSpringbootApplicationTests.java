@@ -1,12 +1,11 @@
 package com.example;
 
 import com.example.demo.PojoDemo;
-import com.example.demo.learning02_aspect.UseLogAspectDemo;
+import com.example.demo.aspect.UseLogAspectDemo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.PrimitiveIterator;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -120,6 +119,7 @@ class LearningSpringbootApplicationTests {
 
     @Test
     void test4RedisTemplate() {
-        redisTemplate.opsForValue().set("username", "huangzhikang");
+        redisTemplate.opsForValue().set("username_zh", "黄志康", 60, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("username_en", "huangzhikang", 60, TimeUnit.SECONDS);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.demo.learning04_mybatis.core.handler;
+package com.example.demo.mybatis.core.handler;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

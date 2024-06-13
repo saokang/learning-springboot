@@ -1,4 +1,4 @@
-package com.example.demo.learning04_mybatis.pojo;
+package com.example.demo.mybatis.pojo;
 
 public class User {
 

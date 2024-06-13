@@ -1,4 +1,4 @@
-package com.example.demo.learning02_aspect;
+package com.example.demo.aspect;
 
 import org.springframework.stereotype.Service;
 

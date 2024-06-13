@@ -1,7 +1,7 @@
-package com.example.demo.learning04_mybatis;
+package com.example.demo.mybatis;
 
-import com.example.demo.learning04_mybatis.core.MapperProxyFactory;
-import com.example.demo.learning04_mybatis.mapper.UserMapper;
+import com.example.demo.mybatis.core.MapperProxyFactory;
+import com.example.demo.mybatis.mapper.UserMapper;
 
 public class Main {
 
