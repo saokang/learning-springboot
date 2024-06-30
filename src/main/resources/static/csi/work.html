@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSI WORK</title>
+    <style>
+        /* ================================================================ reset start */
+        * { margin: 0; padding: 0; }
+        /* ================================================================ custom scrollbar styles for Chrome, Edge */
+        ::-webkit-scrollbar { width: 10px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb { background: #aaa; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #888; }
+        /* ================================================================ toast component */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 999; }
+        .toast { display: flex; align-items: center; padding: 10px 20px; margin-bottom: 10px; background-color: #333; color: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); opacity: 0; transform: translateY(-20px); transition: opacity 0.3s, transform 0.3s; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast-close { margin-left: 10px; cursor: pointer; color: #bbb; }
+        .toast-close:hover { color: #fff; }
+        /* ================================================================ toTop component */
+        .scroll-to-top { display: none; position: fixed; bottom: 20px; right: 20px; z-index: 999; font-size: 16px; background-color: #007bff; color: #fff; border: none; outline: none; cursor: pointer; padding: 10px 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
+        .scroll-to-top:hover { background-color: #0056b3; }
+        /* ================================================================ repeat use style */
+        .no-select { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+        /* ================================================================ common start */
+        body { font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif, "宋体" !important; width: 100%; display: flex; box-sizing: border-box; }
+        pre { width: 100%; white-space: pre; overflow-x: auto; }
+        button { border: none; padding: 4px 8px; position: absolute; right: 0; top: 0; background-color: #f1f1f1; cursor: pointer; }
+        button:hover { background-color: #ccc; }
+        textarea { width: 100%; padding: 2px; outline: none; border: none; resize: none; font-size: 16px; font-weight: bold; box-sizing: border-box; }
+        .left { width: 60%; padding: 10px; box-sizing: border-box; }
+        .right { width: 40%; box-sizing: border-box; display: flex; flex-direction: column; padding: 10px; }
+        /* ================================================================ left start */
+        .list-item { padding: 20px 2px 2px 2px; border: 1px solid #ccc; position: relative; margin-bottom: 10px; }
+        /* ================================================================ right start */
+        .summary { padding: 5px; border: 1px solid #ccc; }
+        .summary div { padding: 5px; font-size: small; font-weight: bold; }
+        #calculate-span, #hidden-span { border: 1px solid #9a1b1b; padding: 2px 5px; border-radius: 5px; }
+        #calculate-span:hover, #hidden-span:hover { background-color: #ccc; }
+        #startTimeInput, #endTimeInput { padding: 0px 10px; }
+        .card-list { display: flex; flex-direction: column; margin-top: 20px; }
+        .card { padding: 2px; border-bottom: 1px solid #ccc; display: flex; }
+        .card div { padding: 5px 32px; font-size: 14px; }
+
+    </style>
+</head>
+
+<body>
+
+<div class="left">
+    <div class="list">
+        <div class="list-item">
+            <button onclick="generateListItem(event)">generate</button>
+            <textarea name="memo" id="memo" rows="16" placeholder="input your text..."></textarea>
+        </div><!-- list item end -->
+        <!-- insert HTML here -->
+
+
+        <div class="list-item">
+            <button onclick="copy(event)">copy</button>
+            <pre>
+@RestController
+@RequestMapping(&quot;/api&quot;)
+public class SampleController {
+
+    @GetMapping(&quot;/success&quot;)
+    public ApiResponse&lt;String&gt; getSuccessResponse() {
+        return ApiResponse.&lt;String&gt;builder()
+                .code(ApiResponseCode.SUCCESS.getCode())
+                .message(ApiResponseCode.SUCCESS.getMessage())
+                .data(&quot;This is a successful response&quot;)
+                .build();
+    }
+
+    @GetMapping(&quot;/error&quot;)
+    public ApiResponse&lt;String&gt; getErrorResponse() {
+        return ApiResponse.&lt;String&gt;builder()
+                .code(ApiResponseCode.INTERNAL_SERVER_ERROR.getCode())
+                .message(ApiResponseCode.INTERNAL_SERVER_ERROR.getMessage())
+                .data(&quot;This is an error response&quot;)
+                .build();
+    }
+}
+                </pre>
+        </div><!-- list item end -->
+        <div class="list-item">
+            <button onclick="copy(event)">copy</button>
+            <pre>
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    try {
+        document.execCommand(&#039;copy&#039;);
+        alert(&#039;已复制到剪贴板&#039;);
+    } catch (err) {
+        alert(&#039;复制失败&#039;);
+    }
+    selection.removeAllRanges();
+}
+
+// 示例数据，用于计算统计数据
+const workLog = [
+    { date: &#039;2024-06-28&#039;, day: &#039;星期五&#039;, workHours: 8, overtimeHours: 2 },
+    { date: &#039;2024-06-29&#039;, day: &#039;星期六&#039;, workHours: 6, overtimeHours: 1 },
+    // 继续添加更多数据
+];
+
+// 计算统计数据
+const workDays = workLog.length;
+const totalOvertime = workLog.reduce((total, log) =&gt; total + log.overtimeHours, 0);
+
+// 更新统计数据
+document.getElementById(&#039;work-days&#039;).innerText = workDays;
+document.getElementById(&#039;total-overtime&#039;).innerText = totalOvertime;
+                </pre>
+        </div><!-- list item end -->
+        <div class="list-item">
+            <button onclick="copy(event)">copy</button>
+            <pre>
+docker run -d --name minio1 --network minio-network \
+    -p 9001:9000 \
+    -e &quot;MINIO_ACCESS_KEY=minio&quot; \
+    -e &quot;MINIO_SECRET_KEY=minio123&quot; \
+    -v /mnt/data1:/data \
+    minio/minio server http://minio1/data http://minio2/data http://minio3/data http://minio4/data
+
+docker run -d --name minio2 --network minio-network \
+    -p 9002:9000 \
+    -e &quot;MINIO_ACCESS_KEY=minio&quot; \
+    -e &quot;MINIO_SECRET_KEY=minio123&quot; \
+    -v /mnt/data2:/data \
+    minio/minio server http://minio1/data http://minio2/data http://minio3/data http://minio4/data
+                </pre>
+        </div><!-- list item end -->
+
+
+    </div>
+</div>
+
+<div class="right">
+    <div class="summary">
+        <div class="no-select">
+            <label for="startTimeInput">START:</label> <input type="time" name="startTimeInput" id="startTimeInput">
+            <label for="endTimeInput">END: </label> <input type="time" name="endTimeInput" id="endTimeInput">
+            <span id="calculate-span">calculate</span>
+            <span id="hidden-span" onclick="toggleSummaryStatus(event)">hide</span>
+        </div>
+        <div>总超额工时：<span></span></div>
+        <div>总工作天数：<span></span></div>
+        <textarea name="logs" id="logs" rows="25" placeholder="input your logs..."
+                  onchange="writeToLocalStorage(event)"></textarea>
+
+    </div>
+
+    <div class="card-list">
+        <div class="card">
+            <div class="cur-date">1999-08-18 [星期五]</div>
+            <div class="start-work-time">08:20</div>
+            <div class="end-work-time">19:32</div>
+            <div class="overtime">78</div>
+        </div>
+        <div class="card">
+            <div class="cur-date">1999-08-18 [星期五]</div>
+            <div class="start-work-time">08:20</div>
+            <div class="end-work-time">19:32</div>
+            <div class="overtime">78</div>
+        </div>
+    </div>
+</div>
+
+<!-- toast component -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- 滚动到顶部按钮 -->
+<div class="scroll-to-top" onclick="scrollToTop()">返回顶部</div>
+
+<script>
+
+    /* ================================================================ constant variable */
+
+    const localStorageLogsName = "localStorageLogs";
+    const workTimeDataName = "workTimeData";
+
+    /* ================================================================ business methods */
+
+    function writeToLocalStorage(event) {
+        let textareaElement = document.getElementById('logs');
+        let logText = textareaElement.value;
+        let processedLogText = trimWhitespaceAndNewlines(logText);
+        // console.log(processedLogText);
+        localStorage.setItem(localStorageLogsName, processedLogText);
+        showToast('更新工作日报成功！')
+    }
+
+    function toggleSummaryStatus(event) {
+        let currentElement = event.target;
+        if (currentElement.innerHTML === 'hide') {
+            currentElement.innerHTML = 'show';
+        } else {
+            currentElement.innerHTML = 'hide'
+        }
+    }
+
+    function generateListItem(event) {
+        let siblingElement = event.target.nextElementSibling;
+        if (siblingElement.value === undefined || siblingElement.value.length === 0 ||
+            trimWhitespaceAndNewlines(siblingElement.value).length === 0) {
+            showToast('构建内容为空！')
+            return;
+        }
+        let processedText = handleHTMLText(trimWhitespaceAndNewlines(siblingElement.value), true)
+        let tempHTML = `<div class="list-item">
+    <button onclick="copy(event)">copy</button>
+    <pre>
+${processedText}
+    </pre>
+</div><!-- list item end -->`;
+        showToast('构建HTML成功！')
+        copyToClipboard(tempHTML)
+    }
+
+    function copy(event) {
+        let currentElement = event.target;
+        let siblingElement = currentElement.nextElementSibling;
+        // console.log(siblingElement.innerHTML);
+        let processedText = trimWhitespaceAndNewlines(siblingElement.innerHTML)
+        copyToClipboard(handleHTMLText(processedText, false))
+    }
+
+    function debug(event) {
+        // console.log(event);
+        let currentElement = event.target;
+        // console.log(currentElement);
+        let parentElement = currentElement.parentElement;
+        // console.log(parentElement);
+        let siblingElement = currentElement.nextElementSibling;
+        // console.log(siblingElement.value);
+        siblingElement.value = handleHTMLText(siblingElement.value, true);
+        showToast("Debug successful!")
+    }
+
+    /* ================================================================ common methods */
+
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOMContentLoaded Event');
+    });
+
+    // 当页面滚动时，显示或隐藏返回顶部按钮
+    window.onscroll = function () {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        var scrollToTopBtn = document.querySelector('.scroll-to-top');
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollToTopBtn.style.display = "block";
+        } else {
+            scrollToTopBtn.style.display = "none";
+        }
+    }
+
+    // 点击按钮时滚动到页面顶部
+    function scrollToTop() {
+        document.body.scrollTop = 0; // 兼容旧版本浏览器
+        document.documentElement.scrollTop = 0; // 兼容现代浏览器
+    }
+
+    /**
+     * 提示组件
+     * 使用说明：
+     *    1 复制html代码
+     *      <div class="toast-container" id="toastContainer"></div>
+     *    2 复制css代码
+     *      .toast-container{position:fixed;top:20px;right:20px;z-index:999}.toast{display:flex;align-items:center;padding:10px 20px;margin-bottom:10px;background-color:#333;color:#fff;border-radius:5px;box-shadow:0 2px 4px rgba(0,0,0,0.2);opacity:0;transform:translateY(-20px);transition:opacity 0.3s,transform 0.3s}.toast.show{opacity:1;transform:translateY(0)}.toast-close{margin-left:10px;cursor:pointer;color:#bbb}.toast-close:hover{color:#fff}
+     *    3 调用下述函数
+     */
+    function showToast(message) {
+        const toastContainer = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `${message} <span class="toast-close" onclick="this.parentElement.style.display='none';">&times;</span>`;
+
+        toastContainer.appendChild(toast);
+
+        // 显示 toast
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+
+        // 自动移除 toast
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }, 3000);
+    }
+
+    /**
+     * 处理html文本，转义 和 反转义
+     */
+    function handleHTMLText(source, isEncoded) {
+        if (source === undefined || source.length === 0) {
+            return null;
+        }
+        if (isEncoded) {
+            return source.replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        } else {
+            return source.replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#039;/g, "'")
+                .replace(/&amp;/g, '&');
+        }
+    }
+
+    /**
+     * 拷贝数据到系统剪切板
+     */
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('已复制到剪贴板');
+        }).catch(err => {
+            console.error('复制失败: ', err);
+            showToast('复制失败');
+        });
+    }
+
+    /**
+     * 去除首尾空格 和 换行
+     */
+    function trimWhitespaceAndNewlines(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }
+
+    /**
+     * 计算两个时间字符串之间的分钟数差异
+     * @param {string} startTime - 起始时间字符串，格式为 "HH:mm"
+     * @param {string} endTime - 结束时间字符串，格式为 "HH:mm"
+     * @returns {number} 时间差异的分钟数
+     */
+    function calculateTimeDifference(startTime, endTime) {
+        // 将起始时间字符串解析为小时和分钟
+        const [startHours, startMinutes] = startTime.split(':').map(Number);
+        // 将结束时间字符串解析为小时和分钟
+        const [endHours, endMinutes] = endTime.split(':').map(Number);
+        // 将起始时间转换为总的分钟数
+        const totalStartMinutes = startHours * 60 + startMinutes;
+        // 将结束时间转换为总的分钟数
+        const totalEndMinutes = endHours * 60 + endMinutes;
+        // 计算时间差异的分钟数并返回时间差异的分钟数
+        return totalEndMinutes - totalStartMinutes;
+    }
+
+    /* ================================================================ call methods */
+    // 获取页面上所有的 textarea 元素
+    const textareas = document.querySelectorAll('textarea');
+
+    // 为每个 textarea 元素添加 keydown 事件监听器
+    textareas.forEach(textarea => {
+        textarea.addEventListener('keydown', function (e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+
+                // 获取光标位置
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+
+                // 设置插入的四个空格
+                const spaces = '    ';
+
+                // 在光标位置插入四个空格
+                this.value = this.value.substring(0, start) + spaces + this.value.substring(end);
+
+                // 将光标位置设置在插入的四个空格之后
+                this.selectionStart = this.selectionEnd = start + spaces.length;
+            }
+        });
+    });
+
+    // Load data from localStorage and render it
+    const textareaElement = document.getElementById('logs');
+    let savedText = localStorage.getItem(localStorageLogsName);
+    if (savedText) {
+        textareaElement.value = savedText;
+    }
+
+    // Load data from localStorage and render it
+    const storedData = localStorage.getItem(workTimeDataName);
+    if (storedData) {
+        const workData = JSON.parse(storedData);
+        // console.log(workData);
+        workData.forEach(data => {
+            renderCard(data);
+        });
+    }
+
+
+    console.log(calculateTimeDifference('08:19', '19:20'));
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Formatter</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        /*  custom scrollbar styles for Chrome, Edge */
+        ::-webkit-scrollbar { width: 10px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb { background: #aaa; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #888; }
+        /* 基本按钮样式 */
+        .btn { display: inline-block; padding: 8px 20px; font-size: 14px; font-weight: 500; text-align: center; text-decoration: none; cursor: pointer; border: 1px solid #409eff; border-radius: 4px; color: #409eff; background-color: #fff; box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s; }
+        /* 按钮悬停样式 */
+        .btn:hover { background-color: #ecf5ff; border-color: #99c0ff; color: #409eff; }
+        /* 按钮激活样式 */
+        .btn:active { background-color: #c6e2ff; border-color: #409eff; box-shadow: none; }
+        /* 按钮禁用样式 */
+        .btn.disabled { opacity: 0.6; cursor: not-allowed; pointer-events: none; }
+        .no-select { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+        /* 基本 textarea 样式 */
+        .textarea { display: block; width: 100%; padding: 8px; font-size: 14px; line-height: 1.5; color: #333; border: 1px solid #dcdfe6; border-radius: 4px; background-color: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); resize: vertical; transition: border-color 0.3s, box-shadow 0.3s; }
+        /* textarea 悬停样式 */
+        .textarea:hover { border-color: #c0c4cc; }
+        /* textarea 聚焦样式 */
+        .textarea:focus { border-color: #409eff; box-shadow: 0 0 6px rgba(64, 158, 255, 0.5); outline: none; }
+        div { box-sizing: border-box; }
+        textarea { width: 100%; padding: 5px; outline: none; border: none; resize: none; font-weight: bold; box-sizing: border-box; white-space: pre; overflow-x: auto; }
+        .main { display: flex; flex-direction: column; padding: 10px; box-sizing: border-box; height: 100vh; }
+        .main-top, .main-bottom { width: 100%; height: 50%; display: flex; }
+        .main-top-left, .main-bottom-left { width: 90%; height: 100%; padding: 10px; }
+        .main-top-right, .main-bottom-right { width: 10%; display: flex; flex-direction: column; padding: 10px; }
+        .main-top-right div, .main-bottom-right div { margin: 5px; }
+        /* 提示组件 */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 999; }
+        .toast { display: flex; align-items: center; padding: 10px 20px; margin-bottom: 10px; background-color: #333; color: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-20px); transition: opacity 0.3s,transform 0.3s; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast-close { margin-left: 10px; cursor: pointer; color: #bbb; }
+        .toast-close:hover { color: #fff; }
+
+    </style>
+</head>
+<body>
+
+<div class="main">
+    <h3>Format CSS Single Attribute Per Line [ 注释信息禁止包含 '{' 和 '}' ]</h3>
+    <div class="main-top">
+        <div class="main-top-left">
+            <textarea class="textarea" id="srcTextArea" style="height: 100%;"></textarea>
+        </div>
+        <div class="main-top-right">
+            <div class="btn no-select" onclick="format()">Format</div>
+            <div class="btn no-select" onclick="copySrcData()">Copy</div>
+            <div class="btn no-select" onclick="parseToSrcArea()">Parse</div>
+            <div class="btn no-select" onclick="clearSrcData()">Clear All</div>
+        </div>
+    </div>
+    <div class="main-bottom">
+        <div class="main-bottom-left">
+            <textarea class="textarea" id="destTextArea" style="height: 100%;"></textarea>
+        </div>
+        <div class="main-bottom-right">
+            <div class="btn no-select" onclick="copyDestData()">Copy</div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+    function trimNewLine(rawText) {
+        return rawText.replace(/[\r\n]+/g, '');
+    }
+
+    function extractComments(text) {
+        // 正则表达式检查是否存在 /*...*/ 注释
+        const commentRegex = /\/\*([\s\S]*?)\*\//g;
+        // 使用 matchAll 获取所有匹配项
+        const matches = text.matchAll(commentRegex);
+        // 提取所有匹配的注释内容
+        const comments = [];
+        for (const match of matches) {
+            comments.push(match[0]); // match[1] 可以只返回注释内容，不包括 /* 和 */
+        }
+        return comments;
+    }
+
+    /**
+     * 拷贝数据到系统剪切板
+     */
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('已复制到剪贴板');
+        }).catch(err => {
+            console.error('复制失败: ', err);
+            showToast('复制失败');
+        });
+    }
+
+    /**
+     * 提示组件
+     * 使用说明：
+     *    1 复制html代码
+     *      <div class="toast-container" id="toastContainer"></div>
+     *    2 复制css代码
+     *      .toast-container{position:fixed;top:20px;right:20px;z-index:999}.toast{display:flex;align-items:center;padding:10px 20px;margin-bottom:10px;background-color:#333;color:#fff;border-radius:5px;box-shadow:0 2px 4px rgba(0,0,0,0.2);opacity:0;transform:translateY(-20px);transition:opacity 0.3s,transform 0.3s}.toast.show{opacity:1;transform:translateY(0)}.toast-close{margin-left:10px;cursor:pointer;color:#bbb}.toast-close:hover{color:#fff}
+     *    3 调用下述函数
+     */
+    function showToast(message) {
+        const toastContainer = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `${message} <span class="toast-close" onclick="this.parentElement.style.display='none';">&times;</span>`;
+
+        toastContainer.appendChild(toast);
+
+        // 显示 toast
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+
+        // 自动移除 toast
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }, 3000);
+    }
+
+    function formatToPerLine(rawText) {
+        // 移除所有注释：类似 /* some comments */ 这种格式
+        let tempText = rawText.replace(/\/\*[\s\S]*?\*\//g, '');
+        tempText = tempText.split('}').map(perLine => {
+            if (perLine.trim().length === 0) return '';
+
+            perLine = perLine.trim();
+            let parts = perLine.split('{');
+            let selector = parts[0].trim().split(',')
+                .map(choice => {
+                    // console.log(choice.trim())
+                    return choice.trim();
+                }).join(', ');
+            // console.log(selector);
+
+            let properties = parts[1].trim().split(';')
+                .map(prop => prop.trim())
+                .filter(prop => prop.length > 0)
+                .map(prop => {
+                    let propParts = prop.split(':');
+                    return propParts[0].trim() + ': ' + propParts[1].trim();
+                }).join('; ') + ';';
+            // console.log(properties)
+
+            return selector + ' { ' + properties;
+        }).join(' }\n');
+
+        return tempText;
+    }
+
+    function formatToPerLineWithPartialComments(rawText) {
+        // 移除属性内部注释：函数会删除 /* inline comments */
+        // /* some comments */
+        // #id {
+        //     color: white; /* inline comments */
+        // }
+        let tempText = rawText;
+        tempText = tempText.split('}').map(perLine => {
+            if (perLine.trim().length === 0) return '';
+
+            perLine = perLine.trim();
+            let parts = perLine.split('{');
+            // 获取可能含有注释的css选择器文本
+            let selector = parts[0].trim();
+            // 获取所有注释信息
+            let allComments = extractComments(selector);
+            console.log(allComments);
+
+            let realSelector = selector.replace(/\/\*[\s\S]*?\*\//g, '');
+            realSelector = realSelector.trim().split(',')
+                .map(choice => {
+                    // console.log(choice.trim())
+                    return choice.trim();
+                }).join(', ');
+            // console.log(realSelector);
+
+            let resultSelector = '';
+            if (allComments.length > 0) {
+                for (const comment of allComments) {
+                    resultSelector += comment;
+                }
+                resultSelector += '\n';
+            }
+            resultSelector += realSelector;
+
+            let properties = parts[1];
+            // 解决最后一行是注释的问题
+            if (properties) {
+                // remove inline comments
+                properties = properties.replace(/\/\*[\s\S]*?\*\//g, '');
+                properties = properties.trim().split(';')
+                    .map(prop => prop.trim())
+                    .filter(prop => prop.length > 0)
+                    .map(prop => {
+                        let propParts = prop.split(':');
+                        return propParts[0].trim() + ': ' + propParts[1].trim();
+                    }).join('; ') + ';';
+                // console.log(properties);
+                return resultSelector + ' { ' + properties;
+            }
+
+            // console.log(perLine);
+            return resultSelector;
+        }).join(' }\n');
+        return tempText;
+    }
+
+    function format() {
+        let srcTextAreaElement = document.getElementById('srcTextArea');
+        let destTextAreaElement = document.getElementById('destTextArea');
+
+        let processedText = trimNewLine(srcTextAreaElement.value);
+        processedText = formatToPerLineWithPartialComments(processedText);
+
+        destTextAreaElement.value = processedText;
+    }
+
+    function copySrcData() {
+        let srcTextAreaValue = document.getElementById('srcTextArea').value;
+        copyToClipboard(srcTextAreaValue);
+    }
+
+    function copyDestData() {
+        let destTextAreaValue = document.getElementById('destTextArea').value;
+        copyToClipboard(destTextAreaValue);
+    }
+
+    function clearSrcData() {
+        document.getElementById('srcTextArea').value = '';
+    }
+
+    async function parseToSrcArea() {
+        const text = await navigator.clipboard.readText();
+        document.getElementById('srcTextArea').value = text;
+    }
+
+</script>
+</body>
+</html>
