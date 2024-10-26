@@ -1,4 +1,4 @@
 package com.example.util;
 
-public class ValidateUtils {
+public class ValidateUtil {
 }

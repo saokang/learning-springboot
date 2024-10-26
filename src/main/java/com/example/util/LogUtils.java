@@ -63,7 +63,7 @@ public class LogUtils {
         }
 
         // 用于构建最终的字符串结果
-        StringBuilder builder = new StringBuilder(message.length() + 50);
+        StringBuilder builder = new StringBuilder(message.length() + 64);
         int paramIndex = 0;
         int start = 0;
         int bracesIndex;

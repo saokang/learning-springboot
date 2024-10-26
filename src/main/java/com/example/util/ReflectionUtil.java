@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class ReflectionUtils {
+public class ReflectionUtil {
 
     /**
      * 获取对象的所有字段，包括私有字段

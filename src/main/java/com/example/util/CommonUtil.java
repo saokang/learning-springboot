@@ -7,5 +7,5 @@ package com.example.util;
  * Map操作相关
  * 断言操作相关
  */
-public class CommonUtils {
+public class CommonUtil {
 }

@@ -1,20 +1,17 @@
 package com.example.util;
 
 
-import org.apache.xmlbeans.impl.regex.REUtil;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
-public class DateUtils {
+public class DateUtil {
 
     public static final String STANDARD_DATE_PATTERN = "yyyy-MM-dd";
     public static final String STANDARD_TIME_PATTERN = "HH:mm:ss";

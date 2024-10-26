@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class ProxyUtils {
+public class ProxyUtil {
 
     /**
      * 创建一个代理对象

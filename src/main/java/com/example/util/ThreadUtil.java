@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-public class ThreadUtils {
+public class ThreadUtil {
 
     private static final int corePoolSize = Runtime.getRuntime().availableProcessors();
     private static final int maxPoolSize = corePoolSize;

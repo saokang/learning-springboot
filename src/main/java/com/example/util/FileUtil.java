@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-public class FileUtils {
+public class FileUtil {
 
     // 判断文件是否存在
     public static boolean fileExists(String path) {
